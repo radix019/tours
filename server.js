@@ -25,6 +25,14 @@ mongoose
     });
   });
 
-app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
   console.log('App running on port 4000 || 3000...');
+});
+
+process.on('unhandledRejection', (err) => {
+  console.log('Unhandled Rejection: ', err.name, err.message);
+  console.log('Node shutting down...');
+  server.close(() => {
+    process.exit(1);
+  });
 });

@@ -26,9 +26,7 @@ mongoose
       message: error.message,
     });
   });
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8'),
-);
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 const importTours = async () => {
   try {
     await Tour.create(tours);

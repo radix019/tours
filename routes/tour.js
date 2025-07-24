@@ -9,10 +9,15 @@ const {
   getTourStats,
   getMonthlyPlan,
 } = require('./../controllers/tourController');
+const { protectedRoute, restrictTo } = require('../controllers/authController');
 
 router.route('/').get(getTours).post(createTour);
 router.route('/get-stats').get(getTourStats);
 router.route('/monthly-plan/:year').get(getMonthlyPlan);
-router.route('/:id').get(getTourById).patch(updateTour).delete(deleteTour);
+router
+  .route('/:id')
+  .get(getTourById)
+  .patch(updateTour)
+  .delete(protectedRoute, restrictTo('admin', 'lead-guide'), deleteTour);
 
 module.exports = router;
