@@ -38,7 +38,7 @@ exports.signup = catchAsync(async (req, res, _) => {
     confirmPassword: req.body.confirmPassword,
     role: req.body.role,
   });
-  const token = generateToken(newUser._id);
+  const token = this.generateToken(newUser._id);
   newUser.password = undefined;
   newUser.passwordChangedAt = undefined;
   this.sendCookie(res, token);

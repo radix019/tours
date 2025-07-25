@@ -5,6 +5,7 @@ const {
   signup,
   signin,
   protectedRoute,
+  restrictTo,
 } = require('../controllers/authController');
 const {
   fetchUsers,
@@ -13,6 +14,7 @@ const {
   resetPassword,
   updatePassword,
   updateProfile,
+  fetchUserById,
 } = require('./../controllers/userController');
 
 router.post(ROUTES_PATH.SIGNUP, signup);
@@ -23,7 +25,10 @@ router.patch(ROUTES_PATH.RESET_PSWD, resetPassword);
 router.patch(ROUTES_PATH.UPDATE_PSWD, protectedRoute, updatePassword);
 router.patch(ROUTES_PATH.UPDATE_PROFILE, protectedRoute, updateProfile);
 
-router.delete(ROUTES_PATH.DELETE_PROFILE, protectedRoute, deleteProfile);
+router
+  .route('/:id')
+  .get(protectedRoute, fetchUserById)
+  .delete(protectedRoute, restrictTo('admin'), deleteProfile);
 router.route('/').get(protectedRoute, fetchUsers);
 
 module.exports = router;

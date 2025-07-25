@@ -3,22 +3,10 @@ const catchAsync = require('../utils/catchAsync');
 const crypto = require('crypto');
 const sendEamil = require('../utils/sendEmail');
 const { sendCookie, generateToken } = require('./authController');
+const factory = require('./handlerFactory');
 
-const filterObjs = (body, selected) => {
-  const newObj = {};
-  Object.keys(body).forEach((el) => {
-    if (selected.includes(el)) newObj[el] = body[el];
-  });
-  return newObj;
-};
-exports.fetchUsers = catchAsync(async (req, res, _) => {
-  const users = await User.find();
-  res.status(200).json({
-    result: users.length,
-    status: 'success',
-    data: { users },
-  });
-});
+exports.fetchUsers = factory.getAll(User);
+exports.fetchUserById = factory.getOne(User);
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
@@ -108,32 +96,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateProfile = catchAsync(async (req, res) => {
-  const updatedData = filterObjs(req.body, ['name']);
-  const updatedUser = await User.findByIdAndUpdate(req.user.id, updatedData, {
-    new: true,
-    runValidators: true,
-  });
-
-  res.status(200).json({
-    status: 'Success',
-    data: {
-      user: updatedUser,
-    },
-  });
-});
-exports.deleteProfile = catchAsync(async (req, res) => {
-  const deletedUser = await User.findByIdAndUpdate(
-    req.user._id,
-    { active: false },
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
-
-  res.status(204).json({
-    status: 'Success',
-    deletedUser,
-  });
-});
+exports.updateProfile = factory.updateOnebyId(User);
+exports.deleteProfile = factory.deleteOne(User);
