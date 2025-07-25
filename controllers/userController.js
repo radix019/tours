@@ -95,6 +95,9 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     token,
   });
 });
-
+exports.getMe = (req, _, next) => {
+  req.params.id = req.user.id;
+  next();
+};
 exports.updateProfile = factory.updateOnebyId(User);
 exports.deleteProfile = factory.deleteOne(User);

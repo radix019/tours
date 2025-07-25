@@ -50,7 +50,6 @@ exports.getAll = (Model) =>
   });
 exports.updateOnebyId = (Model) =>
   catchAsync(async (req, res, next) => {
-    console.log('Model', Object.keys(Model));
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
