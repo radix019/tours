@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema(
     review: {
       type: String,
       min: [20, 'Content should have atleast 20 words!'],
-      max: [100, 'Content should not exceed more than 400 words'],
+      max: [200, 'Content should not exceed more than 200 words'],
       required: [true, 'Review cannot be empty!'],
     },
     rating: {
