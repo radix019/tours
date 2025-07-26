@@ -12,7 +12,7 @@ const { protectedRoute, restrictTo } = require('../controllers/authController');
 router
   .route('/:id')
   .patch(protectedRoute, updateReview)
-  .delete(protectedRoute, restrictTo('admin'), deleteReview);
+  .delete(protectedRoute, restrictTo('user'), deleteReview);
 router
   .route('/')
   .get(protectedRoute, fetchReviews)

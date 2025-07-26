@@ -8,11 +8,15 @@ const {
   updateTour,
   getTourStats,
   getMonthlyPlan,
+  getTourWithinRadius,
 } = require('./../controllers/tourController');
 const { protectedRoute, restrictTo } = require('../controllers/authController');
 const reviewRouters = require('./review');
 
 router.use('/:tourId/reviews', reviewRouters);
+router
+  .route('/within/:distance/center/:latlong/unit/:unit')
+  .get(getTourWithinRadius);
 router
   .route('/')
   .get(getTours)
@@ -25,6 +29,7 @@ router
     restrictTo('admin', 'lead-guide', 'guide'),
     getMonthlyPlan,
   );
+
 router
   .route('/:id')
   .get(getTourById)

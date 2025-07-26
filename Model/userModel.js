@@ -57,6 +57,7 @@ userSchema.pre('save', async function (next) {
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
+// instance methods: to be called on Document.
 userSchema.methods.verifyPassword = async function (
   inputPasswd,
   originalPasswd,
